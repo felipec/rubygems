@@ -129,6 +129,26 @@ class TestGemInstallUpdateOptions < Gem::InstallerTestCase
     assert_path_exist File.join(Gem.user_dir, "gems", @spec.full_name)
   end
 
+  def test_no_user_install_with_user_install
+    @spec = quick_gem 'a' do |spec|
+      util_make_exec spec
+    end
+
+    util_build_gem @spec
+    @gem = @spec.cache_file
+
+    @cmd.handle_options %w[--no-user-install]
+
+    install_dir = File.join(@tempdir, 'install')
+    Gem.instance_variable_set(:@default_dir, install_dir)
+
+    @installer = Gem::Installer.at @gem, @cmd.options
+    @installer.install
+    assert_path_exist File.join(install_dir, 'gems', @spec.full_name)
+  ensure
+    Gem.instance_variable_set(:@default_dir, nil)
+  end
+
   def test_user_install_disabled_read_only
     pend "skipped on MS Windows (chmod has no effect)" if Gem.win_platform?
     pend "skipped in root privilege" if Process.uid.zero?
