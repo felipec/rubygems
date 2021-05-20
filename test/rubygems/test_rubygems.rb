@@ -51,6 +51,22 @@ class GemTest < Gem::TestCase
     end
   end
 
+  def test_operating_system_customizing_default_install
+    path = util_install_operating_system_rb <<-RUBY
+      module Gem
+        def self.default_install
+          Gem.user_dir
+        end
+      end
+    RUBY
+
+    assert system(
+      *ruby_with_rubygems_and_fake_operating_system_in_load_path(path),
+      "-e",
+      "raise unless Gem.dir == Gem.user_dir"
+    )
+  end
+
   private
 
   def util_install_operating_system_rb(content)
