@@ -670,7 +670,7 @@ class Gem::Installer
 
     @build_args = options[:build_args]
 
-    @gem_home = @install_dir || user_install_dir || Gem.dir
+    @gem_home = @install_dir || user_install_dir || Gem.default_install
 
     # If the user has asked for the gem to be installed in a directory that is
     # the system gem directory, then use the system bin directory, else create
@@ -961,13 +961,13 @@ class Gem::Installer
 
   def user_install_dir
     # never install to user home in --build-root mode
-    return unless @build_root.nil?
+    return Gem.default_dir if @build_root || @user_install == false
 
     # Please note that @user_install might have three states:
     # * `true`: `--user-install`
     # * `false`: `--no-user-install` and
     # * `nil`: option was not specified
-    if @user_install || (@user_install.nil? && Gem.default_user_install)
+    if @user_install
       Gem.user_dir
     end
   end

@@ -1986,10 +1986,10 @@ class TestGemInstaller < Gem::InstallerTestCase
 
     FileUtils.chmod 0o000, @gemhome
 
+    Gem.use_paths(nil)
     installer = use_ui(@ui) { Gem::Installer.at @gem }
 
     assert_equal Gem.user_dir, installer.gem_home
-    assert_equal "Defaulting to user installation because default installation directory (#{@gemhome}) is not writable.", @ui.output.strip
   ensure
     FileUtils.chmod 0o755, @gemhome
     ENV["GEM_HOME"] = orig_gem_home
@@ -2007,10 +2007,10 @@ class TestGemInstaller < Gem::InstallerTestCase
 
     FileUtils.chmod 0o000, @gemhome
 
+    Gem.use_paths(nil)
     installer = use_ui(@ui) { Gem::Installer.at @gem, user_install: false }
 
     assert_equal @gemhome, installer.gem_home
-    assert_empty @ui.output.strip
   ensure
     FileUtils.chmod 0o755, @gemhome
     ENV["GEM_HOME"] = orig_gem_home

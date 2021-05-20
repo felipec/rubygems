@@ -1085,6 +1085,7 @@ An Array (#{env.inspect}) was passed in from #{caller[3]}
     hash = { "GEM_HOME" => home, "GEM_PATH" => paths.empty? ? home : paths.join(File::PATH_SEPARATOR) }
     hash.delete_if {|_, v| v.nil? }
     self.paths = hash
+    @default_install = home
   end
 
   ##

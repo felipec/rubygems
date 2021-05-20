@@ -10,6 +10,13 @@ module Gem
   @pre_install_hooks    ||= []
 
   ##
+  # Determines the default install directory
+
+  def self.default_install
+    @default_install ||= default_user_install ? user_dir : default_dir
+  end
+
+  ##
   # An Array of the default sources that come with RubyGems
 
   def self.default_sources
@@ -239,12 +246,7 @@ module Gem
   # Enables automatic installation into user directory
 
   def self.default_user_install # :nodoc:
-    if !ENV.key?("GEM_HOME") && File.exist?(Gem.dir) && !File.writable?(Gem.dir)
-      Gem.ui.say "Defaulting to user installation because default installation directory (#{Gem.dir}) is not writable."
-      return true
-    end
-
-    false
+    File.exist?(default_dir) && !File.writable?(default_dir)
   end
 
   ##
