@@ -24,7 +24,7 @@ class Gem::PathSupport
   # hashtable, or defaults to ENV, the system environment.
   #
   def initialize(env)
-    @home = normalize_home_dir(env["GEM_HOME"] || Gem.default_dir)
+    @home = normalize_home_dir(env["GEM_HOME"] || Gem.default_install)
     @path = split_gem_path env["GEM_PATH"], @home
 
     @spec_cache_dir = env["GEM_SPEC_CACHE"] || Gem.default_spec_cache_dir

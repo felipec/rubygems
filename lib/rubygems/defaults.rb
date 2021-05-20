@@ -10,6 +10,13 @@ module Gem
   @pre_install_hooks    ||= []
 
   ##
+  # Determines the default install directory
+
+  def self.default_install
+    default_dir
+  end
+
+  ##
   # An Array of the default sources that come with RubyGems
 
   def self.default_sources
