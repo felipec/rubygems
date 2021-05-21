@@ -144,7 +144,7 @@ class TestGemCommandsUninstallCommand < Gem::InstallerTestCase
     end
 
     util_build_gem c
-    installer = util_installer c, @gemhome
+    installer = util_installer c, home: @gemhome
 
     use_ui @ui do
       installer.install

@@ -675,7 +675,7 @@ class TestGemInstaller < Gem::InstallerTestCase
     end
     util_make_exec
 
-    util_installer @spec, @gemhome
+    util_installer @spec, home: @gemhome
     installer.wrappers = false
     installer.gem_dir = @spec.gem_dir
 
@@ -798,7 +798,7 @@ class TestGemInstaller < Gem::InstallerTestCase
     util_build_gem spec
 
     plugin_path = File.join "#{@gemhome}2", "plugins", "a_plugin.rb"
-    installer = util_installer spec, "#{@gemhome}2"
+    installer = util_installer spec, home: "#{@gemhome}2"
 
     assert_equal spec, installer.install
 
@@ -1363,7 +1363,7 @@ class TestGemInstaller < Gem::InstallerTestCase
 
     util_build_gem @spec
 
-    installer = util_installer @spec, @gemhome
+    installer = util_installer @spec, home: @gemhome
 
     Gem.post_build do
       false
@@ -1409,7 +1409,7 @@ class TestGemInstaller < Gem::InstallerTestCase
 
     util_build_gem @spec
 
-    installer = util_installer @spec, @gemhome
+    installer = util_installer @spec, home: @gemhome
 
     Gem.pre_install do
       false
@@ -2500,7 +2500,7 @@ class TestGemInstaller < Gem::InstallerTestCase
 
     @spec.cache_file
 
-    installer = util_installer @spec, @gemhome
+    installer = util_installer @spec, home: @gemhome
 
     installer.options[:install_as_default] = true
     installer.gem_dir = @spec.gem_dir
@@ -2523,7 +2523,7 @@ class TestGemInstaller < Gem::InstallerTestCase
 
   def test_default_gem_to_specific_install_dir
     @gem = setup_base_gem
-    installer = util_installer @spec, "#{@gemhome}2"
+    installer = util_installer @spec, home: "#{@gemhome}2"
     installer.options[:install_as_default] = true
 
     use_ui @ui do
@@ -2543,7 +2543,7 @@ class TestGemInstaller < Gem::InstallerTestCase
       util_make_exec spec, "#!/usr/bin/ruby", "exe"
     end
 
-    installer = util_installer(gem, @gemhome)
+    installer = util_installer(gem, home: @gemhome)
     assert_respond_to(installer, :package)
     assert_kind_of(Gem::Package, installer.package)
   end
@@ -2553,7 +2553,7 @@ class TestGemInstaller < Gem::InstallerTestCase
       util_make_exec spec, "#!/usr/bin/ruby", "exe"
     end
 
-    installer = util_installer(gem, @gemhome)
+    installer = util_installer(gem, home: @gemhome)
     assert_respond_to(installer, :gem)
     assert_kind_of(String, installer.gem)
   end
@@ -2564,7 +2564,7 @@ class TestGemInstaller < Gem::InstallerTestCase
     @spec = util_spec "z"
     util_build_gem @spec
 
-    util_installer @spec, @gemhome
+    util_installer @spec, home: @gemhome
   end
 
   def util_conflict_executable(wrappers)
@@ -2574,7 +2574,7 @@ class TestGemInstaller < Gem::InstallerTestCase
 
     util_build_gem conflict
 
-    installer = util_installer conflict, @gemhome
+    installer = util_installer conflict, home: @gemhome
     installer.wrappers = wrappers
     installer.generate_bin
   end

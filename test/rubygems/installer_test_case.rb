@@ -105,7 +105,7 @@ class Gem::InstallerTestCase < Gem::TestCase
 
   def setup_base_installer(force = true)
     @gem = setup_base_gem
-    util_installer @spec, @gemhome, force
+    util_installer @spec, home: @gemhome, force: force
   end
 
   ##
@@ -215,9 +215,9 @@ class Gem::InstallerTestCase < Gem::TestCase
   ##
   # Creates an installer for +spec+ that will install into +gem_home+.
 
-  def util_installer(spec, gem_home, force=true)
+  def util_installer(spec, home: nil, force: true)
     Gem::Installer.at(spec.cache_file,
-                       install_dir: gem_home,
+                       install_dir: home,
                        force: force)
   end
 
