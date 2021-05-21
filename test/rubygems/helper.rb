@@ -639,7 +639,7 @@ class Gem::TestCase < Test::Unit::TestCase
       def ask_if_ok(spec)
         true
       end
-    end.new(spec.name, executables: true, user_install: nil).uninstall
+    end.new(spec.name, executables: true).uninstall
   end
 
   ##
