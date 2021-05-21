@@ -477,6 +477,22 @@ create_makefile '#{@spec.name}'
     assert_path_not_exist gem_dir
   end
 
+  def test_uninstall_user_install_safety
+    Gem.use_paths @gemhome, Gem.user_dir
+
+    installer = Gem::Installer.at(@user_spec.cache_file, user_install: false, force: true)
+    spec = installer.install
+
+    uninstaller = Gem::Uninstaller.new(@user_spec.name,
+                                       executables: true,
+                                       user_install: true,
+                                       all: true)
+
+    uninstaller.uninstall
+
+    assert_path_exist spec.gem_dir
+  end
+
   def test_uninstall_wrong_repo
     Dir.mkdir "#{@gemhome}2"
     Gem.use_paths "#{@gemhome}2", [@gemhome]
