@@ -49,8 +49,7 @@ class Gem::Uninstaller
     @gem                = gem
     @version            = options[:version] || Gem::Requirement.default
     @install_dir        = options[:install_dir]
-    @gem_home           = File.realpath(@install_dir || Gem.dir)
-    @user_dir           = File.exist?(Gem.user_dir) ? File.realpath(Gem.user_dir) : Gem.user_dir
+    @gem_home           = File.realpath(@install_dir || Gem.get_user_dir(options[:user_install]))
     @force_executables  = options[:executables]
     @force_all          = options[:all]
     @force_ignore       = options[:ignore]
@@ -100,8 +99,7 @@ class Gem::Uninstaller
     @default_specs_matching_uninstall_params = default_specs.map(&:to_spec)
 
     list, other_repo_specs = list.partition do |spec|
-      @gem_home == spec.base_dir ||
-        (@user_install && spec.base_dir == @user_dir)
+      @gem_home == spec.base_dir
     end
 
     list.sort!
@@ -238,8 +236,7 @@ class Gem::Uninstaller
   # spec:: the spec of the gem to be uninstalled
 
   def remove(spec)
-    unless path_ok?(@gem_home, spec) ||
-           (@user_install && path_ok?(@user_dir, spec))
+    unless path_ok?(@gem_home, spec)
       e = Gem::GemNotInHomeException.new \
         "Gem '#{spec.full_name}' is not installed in directory #{@gem_home}"
       e.spec = spec
