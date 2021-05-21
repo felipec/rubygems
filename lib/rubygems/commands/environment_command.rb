@@ -115,6 +115,8 @@ lib/rubygems/defaults/operating_system.rb
 
     out << "  - INSTALLATION DIRECTORY: #{Gem.dir}\n"
 
+    out << "  - DEFAULT INSTALLATION DIRECTORY: #{Gem.default_dir}\n"
+
     out << "  - USER INSTALLATION DIRECTORY: #{Gem.user_dir}\n"
 
     out << "  - CREDENTIALS FILE: #{Gem.configuration.credentials_path}\n"
