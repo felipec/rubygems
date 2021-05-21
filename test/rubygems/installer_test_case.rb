@@ -136,13 +136,9 @@ class Gem::InstallerTestCase < Gem::TestCase
   ##
   # Creates the following instance variables:
   #
-  # @spec::
-  #   a spec named 'a', intended for regular installs
   # @user_spec::
   #   a spec named 'b', intended for user installs
   #
-  # @gem::
-  #   the path to a built gem from @spec
   # @user_gem::
   #   the path to a built gem from @user_spec
   #
