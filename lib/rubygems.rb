@@ -1340,6 +1340,10 @@ An Array (#{env.inspect}) was passed in from #{caller[3]}
       @path_to_default_spec_map.clear
     end
 
+    def get_user_dir(v)
+      Gem.send({ true => :user_dir, false => :default_dir }[v] || :default_install)
+    end
+
     ##
     # The list of hooks to be run after Gem::Installer#install extracts files
     # and builds extensions

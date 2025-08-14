@@ -671,7 +671,7 @@ class Gem::Installer
     @build_args = options[:build_args]
 
     # --build-root == --no-user-install
-    @gem_home = @install_dir || get_user_dir(!@build_root && @user_install)
+    @gem_home = @install_dir || Gem.get_user_dir(!@build_root && @user_install)
 
     # If the user has asked for the gem to be installed in a directory that is
     # the system gem directory, then use the system bin directory, else create
@@ -1010,9 +1010,5 @@ class Gem::Installer
       File.join(@plugins_dir, "#{spec.name}_plugin#{File.extname(plugin)}")
     end
     Gem.load_plugin_files(plugin_files)
-  end
-
-  def get_user_dir(v)
-    Gem.send({ true => :user_dir, false => :default_dir }[v] || :default_install)
   end
 end
